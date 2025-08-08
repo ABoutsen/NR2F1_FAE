@@ -4,7 +4,7 @@ library(ggplot2)
 
 hfile <- readRDS("F:/GIGA - PHD/h5_test_OBfree.rds")
 
-cluster.markers <- readr::read_table("F:/GIGA - PHD/01_MAST_DEG_EtOH_vs_Ctrl_Migrating Neurons_filtered.tsv")
+cluster.markers <- FindMarkers(hfile, ident.1="Ctrl", ident.2="EtOH", group.by = 'type', subset.ident = "Migrating Neurons", logfc.threshold = "0", test.use = "MAST", verbose = T)
 colnames(cluster.markers) <- c("genes", "p_val", "avg_log2FC", "pct.1", "pct.2", "p_val_adj", "threshold")
 
 GAD <- GetAssayData(object = hfile, slot="counts") 

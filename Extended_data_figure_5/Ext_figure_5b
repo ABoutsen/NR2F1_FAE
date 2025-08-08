@@ -1,0 +1,10 @@
+library(Seurat)
+
+hfile <- readRDS("F:/GIGA - PHD/h5_test_OBfree.rds")
+
+FeaturePlot(hfile, features = c("Neurod1", 'Pcp4', 'Sema3c', 'Unc5d'))
+
+FeaturePlot(hfile, features = c("Neurod1"))
+FeaturePlot(hfile, features = c('Pcp4'))
+FeaturePlot(hfile, features = c('Unc5d'))
+FeaturePlot(hfile, features = c('Sema3c'))

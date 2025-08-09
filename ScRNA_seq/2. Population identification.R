@@ -547,4 +547,4 @@ DimPlot(combined_seurat, group.by = "SubCluster_Apical")
 
 # Generation of the dataset, removing th OB interneurons population
 seurat_OBfree <- subset(combined_seurat, subset = SubCluster_Apical == "OB Interneurons", invert=T)
-# saveRDS("../Data For Analysis/seurat_OBfree.rds")
+# saveRDS("../../seurat_OBfree.rds")

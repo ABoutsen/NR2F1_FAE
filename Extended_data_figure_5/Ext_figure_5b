@@ -1,10 +1,10 @@
 library(Seurat)
 
-hfile <- readRDS("F:/GIGA - PHD/h5_test_OBfree.rds")
+seurat_OBfree <- readRDS("../../seurat_OBfree.rds")
 
-FeaturePlot(hfile, features = c("Neurod1", 'Pcp4', 'Sema3c', 'Unc5d'))
+FeaturePlot(seurat_OBfree, features = c("Neurod1", 'Pcp4', 'Sema3c', 'Unc5d'))
 
-FeaturePlot(hfile, features = c("Neurod1"))
-FeaturePlot(hfile, features = c('Pcp4'))
-FeaturePlot(hfile, features = c('Unc5d'))
-FeaturePlot(hfile, features = c('Sema3c'))
+FeaturePlot(seurat_OBfree, features = c("Neurod1"))
+FeaturePlot(seurat_OBfree, features = c('Pcp4'))
+FeaturePlot(seurat_OBfree, features = c('Unc5d'))
+FeaturePlot(seurat_OBfree, features = c('Sema3c'))

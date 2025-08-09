@@ -1,29 +1,11 @@
-
 library(ggplot2)
 library(Seurat)
 
-hfile <- readRDS("F:/GIGA - PHD/h5_test_OBfree.rds")
-hfile <- SetIdent(hfile, value = "SubCluster_Apical")
+seurat_OBfree <- readRDS("../../seurat_OBfree.rds")
 
-# Ajout type All SubCluster
-hfile$Population_1 = 'NA'
-hfile[["Population_1"]][WhichCells(hfile, idents = c("Astrocytes")),] <- "Astrocytes"
-hfile[["Population_1"]][WhichCells(hfile, idents = c("Apical Progenitors")),] <- "Apical progenitors"
-hfile[["Population_1"]][WhichCells(hfile, idents = c("OPCs")),] <- "OPCs"
-hfile[["Population_1"]][WhichCells(hfile, idents = c("Migrating Neurons")),] <- "Migrating PNs"
-hfile[["Population_1"]][WhichCells(hfile, idents = c("Projection Neurons")),] <- "Differentiating PNs"
-hfile[["Population_1"]][WhichCells(hfile, idents = c("MGE Interneurons", "CGE Interneurons")),] <- "Interneurons"
-hfile[["Population_1"]][WhichCells(hfile, idents = c("Intermediate Progenitors")),] <- "Intermediate Progenitors"
-hfile[["Population_1"]][WhichCells(hfile, idents = c("Pericytes")),] <- "Pericytes"
-hfile[["Population_1"]][WhichCells(hfile, idents = c("Microglia")),] <- "Microglia"
-hfile[["Population_1"]][WhichCells(hfile, idents = c("Cajal Retzius Cells")),] <- "Cajal Retzius Cells"
-hfile[["Population_1"]][WhichCells(hfile, idents = c("Endothelial cells")),] <- "Endothelial cells"
-
-# DimPlot(hfile, group.by = "Population_1")
-
-num_control <- table(hfile@meta.data[which(hfile@meta.data$type=="Ctrl"), "Population_1"])
-num_etoh <- table(hfile@meta.data[which(hfile@meta.data$type=="EtOH"), "Population_1"])
-num_total <- table(hfile@meta.data["Population_1"] )
+num_control <- table(seurat_OBfree@meta.data[which(seurat_OBfree@meta.data$type=="Ctrl"), "SubCluster_Apical"])
+num_etoh <- table(seurat_OBfree@meta.data[which(seurat_OBfree@meta.data$type=="EtOH"), "SubCluster_Apical"])
+num_total <- table(seurat_OBfree@meta.data["SubCluster_Apical"] )
 
 numcells <- as.data.frame(cbind(Control = num_control,EtOH = num_etoh, Prop_Control = num_control/sum(num_control)*100, Prop_EtOH = num_etoh/sum(num_etoh)*100))
 numcells <- numcells[order(-numcells$Control),]

@@ -1,8 +1,19 @@
 library(Seurat)
 library(monocle3)
 
-seurat_cds<- readRDS("F:/GIGA - PHD/250514_seurat_cds.rds")
+seurat_OBfree <- readRDS("../../seurat_OBfree.rds")
 
+# Pseudotime Analysis
+seurat_OBfree <- subset(seurat_OBfree, ident=c("Endothelial cells", "Microglia", "Pericytes", "MGE Interneurons", "CGE Interneurons", "Cajal Retzius Cells"), invert=T)
+DimPlot(seurat_OBfree, label = T)
+
+seurat_cds <- SeuratWrappers::as.cell_data_set(seurat_OBfree)
+seurat_cds <- cluster_cells(cds = seurat_cds, reduction_method = "UMAP")
+seurat_cds <- learn_graph(seurat_cds, use_partition = T, close_loop = T)
+
+seurat_cds <- order_cells(seurat_cds, reduction_method = "UMAP")
+
+# Figure generation
 plot_cells(cds = seurat_cds,
            color_cells_by = "SubCluster_Apical", 
            show_trajectory_graph = TRUE,
@@ -24,17 +35,14 @@ plot_cells(cds = seurat_cds,
 
 hfile <- readRDS("F:/GIGA - PHD/h5_test_OBfree.rds")
 
-
-DimPlot(hfile, reduction = "umap", group.by = "SubCluster_Apical", order = T, cols = c("Migrating Neurons" = "lightgrey",
-                                                                                             "Projection Neurons" = "lightgrey",
-                                                                                             "CGE Interneurons" = "lightgrey",
-                                                                                             "MGE Interneurons" = "lightgrey",
-                                                                                             "OB Interneurons" = "lightgrey",
-                                                                                             "Apical Progenitors" = "lightgrey",
-                                                                                             "Astrocytes" ="lightgrey",
-                                                                                             "Intermediate Progenitors" = "lightgrey",
-                                                                                             "OPCs" = "lightgrey",
-                                                                                             "Pericytes" = "lightgrey",
-                                                                                             "Endothelial cells" = "lightgrey",
-                                                                                             "Microglia" = "lightgrey",
-                                                                                             "Cajal Retzius Cells" = "lightgrey")) + NoLegend()
+DimPlot(hfile, reduction = "umap", group.by = "SubCluster_Apical", order = T, cols = c("Migrating PNs" = "lightgrey",
+                                                                                       "Differenciating PNs" = "lightgrey",
+                                                                                       "Interneurons" = "lightgrey",
+                                                                                       "Apical Progenitors" = "lightgrey",
+                                                                                       "Astrocytes" ="lightgrey",
+                                                                                       "Intermediate Progenitors" = "lightgrey",
+                                                                                       "OPCs" = "lightgrey",
+                                                                                       "Pericytes" = "lightgrey",
+                                                                                       "Endothelial cells" = "lightgrey",
+                                                                                       "Microglia" = "lightgrey",
+                                                                                       "Cajal Retzius Cells" = "lightgrey")) + NoLegend()

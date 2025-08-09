@@ -1,13 +1,12 @@
-
 library(Seurat)
 library(ggplot2)
 
-hfile <- readRDS("F:/GIGA - PHD/h5_test_OBfree.rds")
+seurat_OBfree <- readRDS("../../seurat_OBfree.rds")
 
-cluster.markers <- FindMarkers(hfile, ident.2="Ctrl", ident.1="EtOH", group.by = 'type', subset.ident = "Migrating Neurons", logfc.threshold = "0", test.use = "MAST", verbose = T)
+cluster.markers <- FindMarkers(seurat_OBfree, ident.2="Ctrl", ident.1="EtOH", group.by = 'type', subset.ident = "Migrating Neurons", logfc.threshold = "0", test.use = "MAST", verbose = T)
 colnames(cluster.markers) <- c("genes", "p_val", "avg_log2FC", "pct.1", "pct.2", "p_val_adj", "threshold")
 
-GAD <- GetAssayData(object = hfile, slot="counts") 
+GAD <- GetAssayData(object = seurat_OBfree, slot="counts") 
 row.names.remove.mito <- stringr::str_subset(GAD@Dimnames[[1]], "^mt-")  
 row.names.remove.hbb  <- stringr::str_subset(GAD@Dimnames[[1]], "^Hbb-") 
 row.names.remove.ribo  <- stringr::str_subset(GAD@Dimnames[[1]], "^Rps|^Rpl")
@@ -20,7 +19,7 @@ cluster.markers$p_val_adj <- as.numeric(as.character(cluster.markers$p_val_adj))
 
 table(cluster.markers$threshold)
 
-ggplot(data=cluster.markers, aes(x=avg_log2FC, y=-log10(p_val_adj))) + #, label=row.names(cluster.markers.volcano))) +
+ggplot(data=cluster.markers, aes(x=avg_log2FC, y=-log10(p_val_adj))) + 
   geom_point(aes(color=threshold), alpha=0.99, size=0.5) +
   scale_colour_manual(name = "Threshold", values = c("blue", "grey", "red")) +
   geom_hline(yintercept=2, color="grey", alpha=1.0) +

@@ -1,6 +1,6 @@
 library(ggplot2)
 
-cluster.markers <- readr::read_table("F:/GIGA - PHD/01_MAST_DEG_EtOH_vs_Ctrl_Migrating Neurons_filtered.tsv")
+cluster.markers <- readr::read_table("../Data For Analysis/01_MAST_DEG_EtOH_vs_Ctrl_Migrating Neurons_filtered.tsv")
 colnames(cluster.markers) <- c("gene_name", "p_val", "avg_log2FC", "pct.1", "pct.2", "p_val_adj", "threshold")
 
 cluster.markers_10 <- cluster.markers[1:10,]

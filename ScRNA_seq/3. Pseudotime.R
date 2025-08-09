@@ -1,7 +1,7 @@
 library(Seurat)
 library(monocle3)
 
-seurat_OBfree <- readRDS("../Data For Analysis/seurat_OBfree.rds")
+seurat_OBfree <- readRDS("../../seurat_OBfree.rds")
 seurat_OBfree <- subset(seurat_OBfree, ident=c("Endothelial cells", "Microglia", "Pericytes", "MGE Interneurons", "CGE Interneurons", "Cajal Retzius Cells"), invert=T)
 DimPlot(seurat_OBfree, label = T)
 

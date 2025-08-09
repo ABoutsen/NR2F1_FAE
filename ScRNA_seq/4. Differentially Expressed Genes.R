@@ -1,6 +1,6 @@
 library(Seurat)
 
-seurat_OBfree <- readRDS("../../seurat_OBfree.rds")
+seurat_OBfree <- readRDS("../Data For Analysis/seurat_OBfree.rds")
 
 #### DEG ANALYSIS ####
 GAD <- GetAssayData(object = seurat_OBfree, slot="counts") #GAD@Dimnames[[1]]

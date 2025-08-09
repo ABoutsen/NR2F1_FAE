@@ -1,7 +1,7 @@
 library(Seurat)
 library(ggplot2)
 
-hfile <- readRDS("F:/GIGA - PHD/h5_test_OBfree.rds")
+seurat_OBfree <- readRDS("../../seurat_OBfree.rds")
 
 ggplotColours <- function(n = 6, h = c(0, 360) + 15){
   if ((diff(h) %% 360) < 1) h[2] <- h[2] - 360/n
@@ -10,9 +10,9 @@ ggplotColours <- function(n = 6, h = c(0, 360) + 15){
 
 colors_PN <- ggplotColours(n=3)
 
-num_control <- table(hfile@meta.data[which(hfile@meta.data$type=="Ctrl"), "Subcluster"])
-num_etoh <- table(hfile@meta.data[which(hfile@meta.data$type=="EtOH"), "Subcluster"])
-num_total <- table(hfile@meta.data["Subcluster"] )
+num_control <- table(seurat_OBfree@meta.data[which(seurat_OBfree@meta.data$type=="Ctrl"), "Subcluster"])
+num_etoh <- table(seurat_OBfree@meta.data[which(seurat_OBfree@meta.data$type=="EtOH"), "Subcluster"])
+num_total <- table(seurat_OBfree@meta.data["Subcluster"] )
 
 numcells <- as.data.frame(cbind(Control = num_control,EtOH = num_etoh, Prop_Control = num_control/sum(num_control)*100, Prop_EtOH = num_etoh/sum(num_etoh)*100))
 numcells <- numcells[order(-numcells$Control),]
@@ -27,7 +27,7 @@ data_long$Cluster <- factor(data_long$Cluster, levels = numcells$Cluster)
 
 max_y <- ceiling(max(data_long$proportion)+10)
 
-DimPlot(hfile, cells.highlight = (WhichCells(hfile, idents = "Migrating Neurons")), cols.highlight = "#7bafde", pt.size = 0.1, sizes.highlight = 0.1)
+DimPlot(seurat_OBfree, cells.highlight = (WhichCells(seurat_OBfree, idents = "Migrating Neurons")), cols.highlight = "#7bafde", pt.size = 0.1, sizes.highlight = 0.1)
 
 print(ggplot(data_long[c(1, 15),], aes(fill=Cluster, y=proportion, x=Cluster, alpha = condition)) +  #(fill=condition, y=proportion, x=Cluster))
         geom_bar(position="dodge", stat="identity", color="black", width = 0.70) +

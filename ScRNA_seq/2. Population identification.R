@@ -1,4 +1,3 @@
-
 library(Seurat)
 
 #### CLUSTERS IDENTIFICATION ####
@@ -547,6 +546,5 @@ combined_seurat[["SubCluster_Apical"]][OB, ] <- "OB Interneurons"
 DimPlot(combined_seurat, group.by = "SubCluster_Apical")
 
 # Generation of the dataset, removing th OB interneurons population
-
 seurat_OBfree <- subset(combined_seurat, subset = SubCluster_Apical == "OB Interneurons", invert=T)
 # saveRDS("~/Desktop/seurat_OBfree.rds")

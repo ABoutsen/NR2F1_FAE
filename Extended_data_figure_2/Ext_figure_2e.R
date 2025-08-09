@@ -1,12 +1,12 @@
 library(ggplot2)
 library(Seurat)
 
-hfile <- readRDS("F:/GIGA - PHD/h5_test_OBfree.rds")
-hfile <- SetIdent(hfile, value = "Subcluster")
+seurat_OBfree <- readRDS("../../seurat_OBfree.rds")
+seurat_OBfree <- SetIdent(seurat_OBfree, value = "Subcluster")
 
-L23 <- WhichCells(hfile, idents = c("Projection Neurons L2&3")) 
-L4  <- WhichCells(hfile, idents = c("Projection Neurons L4")) 
-L56 <- WhichCells(hfile, idents = c("Projection Neurons L5&6"))
+L23 <- WhichCells(seurat_OBfree, idents = c("Projection Neurons L2&3")) 
+L4  <- WhichCells(seurat_OBfree, idents = c("Projection Neurons L4")) 
+L56 <- WhichCells(seurat_OBfree, idents = c("Projection Neurons L5&6"))
 
 ggplotColours <- function(n = 6, h = c(0, 360) + 15){
   if ((diff(h) %% 360) < 1) h[2] <- h[2] - 360/n
@@ -15,9 +15,9 @@ ggplotColours <- function(n = 6, h = c(0, 360) + 15){
 
 colors_PN <- ggplotColours(n=3)
 
-num_control <- table(hfile@meta.data[which(hfile@meta.data$type=="Ctrl"), "Subcluster"])
-num_etoh <- table(hfile@meta.data[which(hfile@meta.data$type=="EtOH"), "Subcluster"])
-num_total <- table(hfile@meta.data["Subcluster"] )
+num_control <- table(seurat_OBfree@meta.data[which(seurat_OBfree@meta.data$type=="Ctrl"), "Subcluster"])
+num_etoh <- table(seurat_OBfree@meta.data[which(seurat_OBfree@meta.data$type=="EtOH"), "Subcluster"])
+num_total <- table(seurat_OBfree@meta.data["Subcluster"] )
 
 numcells <- as.data.frame(cbind(Control = num_control,EtOH = num_etoh, Prop_Control = num_control/sum(num_control)*100, Prop_EtOH = num_etoh/sum(num_etoh)*100))
 numcells <- numcells[order(-numcells$Control),]
@@ -43,4 +43,4 @@ ggplot(data_long[c(2,3,7,16,17,21),], aes(fill=Cluster, y=proportion, x=Cluster,
         geom_text(aes(label = paste0(round(proportion, 2), " %")),
                   position = position_dodge(width = 1), angle=90, hjust = -0.25, size = 3.2)  + RotatedAxis() + theme(legend.title=element_blank())
 
-DimPlot(hfile, label=F, sizes.highlight = 0.3, cells.highlight=list("L4"=L4, "L2&3"=L23,  "L5&6"=L56), cols.highlight = c(colors_PN[1], colors_PN[3], colors_PN[2]), cols="grey")
+DimPlot(seurat_OBfree, label=F, sizes.highlight = 0.3, cells.highlight=list("L4"=L4, "L2&3"=L23,  "L5&6"=L56), cols.highlight = c(colors_PN[1], colors_PN[3], colors_PN[2]), cols="grey")
